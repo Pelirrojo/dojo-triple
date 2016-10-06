@@ -4,7 +4,7 @@
 
 /* eslint-env mocha */
 /* global run */
-'use strict'
+'use strict' 
 
 setTimeout(function () {
   run()
