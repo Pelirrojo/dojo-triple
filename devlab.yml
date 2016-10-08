@@ -1,0 +1,22 @@
+from: mhart/alpine-node:6.2
+services:
+  - thetallgrassnet/alpine-neo4j:2.3:
+      name: neo4j
+      env:
+        - NEO4J_AUTH=none
+      expose:
+        - 7474:7474
+      persist: false
+env:
+  - LOCAL_HOME=${HOME}
+expose:
+  - 3000:3000
+quiet: false
+before-task: echo "Inside node container".
+after-task: echo completed.
+tasks:
+  env: env
+  clean: rm -rf node_modules
+  install: npm install
+  test: npm run test
+  start: npm start

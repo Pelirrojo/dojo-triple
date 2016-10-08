@@ -1,6 +1,7 @@
 # Dockerfile for microservice clans
+#
 
-FROM mhart/alpine-node
+FROM mhart/alpine-node:6.2
 
 RUN mkdir -p /opt/app
 WORKDIR /opt/app
