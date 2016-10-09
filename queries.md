@@ -36,6 +36,9 @@
 
 ````cypher
     MATCH (n:Ninja) RETURN n LIMIT 25
+    
+    
+    MATCH (NinjaTeam:Clan)-[*1]-(a) RETURN NinjaTeam,a
 ````
 
 ## Save a ninja
