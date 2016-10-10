@@ -1,11 +1,8 @@
 # Cypher Ninja Queries
 
-
 ## Populate the Ninja Team
 
 ````cypher
-
-
     CREATE (NinjaTeam:Clan {shortCode:'NinjaTeam', name:'The Ninja Project Team', released:2016, slogan:'El proyecto ninjas de BBVA se ha creado para detectar, visibilizar, fomentar y valorar el talento de nuestro equipo. Bueno, para eso y para dominar el mundo, claro.'})
     CREATE (Rai:Ninja {name:'Raimundo Alegría', role:'Product Owner'})
     CREATE (MartaL:Ninja {name:'Marta López', role:'Product Owner'})
@@ -38,14 +35,33 @@
 ## Get Some Ninjas or Clans
 
 ````cypher
+    // Get all
     MATCH (n:Ninja) RETURN n LIMIT 25
+    MATCH (c:Clan)-[*1]-(n) RETURN c,n 
+    MATCH (c:Clan)-[rel:IS_MEMBER]-(a) RETURN c,rel,a
     
-    MATCH (c:Clan)-[*1]-(n) RETURN c,n
-    query: MATCH (c:Clan)-[rel:IS_MEMBER]-(a) RETURN c,rel,a
-    parameters: 
+    // Get by ID parametrized
+    "statement" : "MATCH (c) WHERE c.shortCode= { code } RETURN c",
+		"parameters" : { "code" : "NinjaTeam" }
 ````
 
 ## Save a leader
+
+````cypher
+
+    // Create a Clan
+    "statement" : "CREATE (newClan:Clan {metadata}) RETURN id(newClan)",
+		"parameters" : { "metadata": { shortCode:'NinjaDevTeam', name:'TNP DevTeam', released: 2016, slogan:'One team to rule them all' } }
+    
+    // Match & Create -> New
+    "statement" : "MATCH (newClan:Clan {shortCode: {clanShortCode}}) " +
+								  "CREATE (Leader:Ninja {props}), (Leader)-[:IS_OWNER]->(newClan), (Leader)-[:IS_MEMBER]->(newClan)",
+		"parameters" : { "props" : {"name":"Manuel E. de Paz","role":"Dev"}, "clanShortCode": "NinjaTeam" }
+
+````
+
+
+
 
 
 ## Save a ninja

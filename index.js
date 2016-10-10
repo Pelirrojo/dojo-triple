@@ -13,7 +13,7 @@ var _ = require('lodash')
 var urlDB = 'http://database:7474/db/data/transaction/commit'
 var app = express()
 
-	app.use( bodyParser.json() );
+	app.use(bodyParser.json() );
 	app.use(bodyParser.urlencoded({ extended: true  }));
 
 
@@ -119,7 +119,7 @@ app.get('/*', function (req, res, next) {
 })
 
 app.listen(3000, function () {
-	console.log('Example app listening on port 3000!')
+	console.log('Ninja MicroService listening on port 3000!')
 })
 
 module.exports = exports = app
