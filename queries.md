@@ -4,6 +4,8 @@
 ## Populate the Ninja Team
 
 ````cypher
+
+
     CREATE (NinjaTeam:Clan {shortCode:'NinjaTeam', name:'The Ninja Project Team', released:2016, slogan:'El proyecto ninjas de BBVA se ha creado para detectar, visibilizar, fomentar y valorar el talento de nuestro equipo. Bueno, para eso y para dominar el mundo, claro.'})
     CREATE (Rai:Ninja {name:'Raimundo Alegría', role:'Product Owner'})
     CREATE (MartaL:Ninja {name:'Marta López', role:'Product Owner'})
@@ -18,6 +20,7 @@
     CREATE (Manu:Ninja {name:'Manuel E. de Paz', role:'Dev'})
     
     CREATE
+        (Rai)-[:IS_OWNER]->(NinjaTeam),
         (Rai)-[:IS_MEMBER]->(NinjaTeam),
         (MartaL)-[:IS_MEMBER]->(NinjaTeam),
         (David)-[:IS_MEMBER]->(NinjaTeam),
@@ -42,5 +45,7 @@
     parameters: 
 ````
 
-## Save a ninja
+## Save a leader
+
+
 ## Save a ninja
