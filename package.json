@@ -1,0 +1,38 @@
+{
+  "name": "dojo-triple",
+  "version": "0.0.1",
+  "description": "Exercise to show connecting to neo4j with node.js",
+  "main": "index.js",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "lodash": "^4.16.4",
+    "superagent": "^2.3.0"
+  },
+  "devDependencies": {
+    "mocha": "^3.1.0",
+    "should": "^11.1.0",
+    "supertest": "^2.0.0"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "test": "mocha index.spec.js --delay"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/beeva-manueldepaz/dojo-triple.git"
+  },
+  "keywords": [
+    "node.js",
+    "dojo",
+    "kata",
+    "randori",
+    "kake"
+  ],
+  "author": "beeva-manueldepaz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/beeva-manueldepaz/dojo-triple/issues"
+  },
+  "homepage": "https://github.com/beeva-manueldepaz/dojo-triple#readme"
+}
