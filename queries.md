@@ -4,7 +4,7 @@
 ## Populate the Ninja Team
 
 ````cypher
-    CREATE (NinjaTeam:Clan {name:'The Ninja Project Team', released:2016, tagline:'Welcome to the Real World'})
+    CREATE (NinjaTeam:Clan {shortCode:'NinjaTeam', name:'The Ninja Project Team', released:2016, slogan:'El proyecto ninjas de BBVA se ha creado para detectar, visibilizar, fomentar y valorar el talento de nuestro equipo. Bueno, para eso y para dominar el mundo, claro.'})
     CREATE (Rai:Ninja {name:'Raimundo Alegría', role:'Product Owner'})
     CREATE (MartaL:Ninja {name:'Marta López', role:'Product Owner'})
     CREATE (David:Ninja {name:'David Hernantes', role:'Product Owner'})
@@ -32,13 +32,14 @@
     
 ````
 
-## Get Some Ninjas
+## Get Some Ninjas or Clans
 
 ````cypher
     MATCH (n:Ninja) RETURN n LIMIT 25
     
-    
-    MATCH (NinjaTeam:Clan)-[*1]-(a) RETURN NinjaTeam,a
+    MATCH (c:Clan)-[*1]-(n) RETURN c,n
+    query: MATCH (c:Clan)-[rel:IS_MEMBER]-(a) RETURN c,rel,a
+    parameters: 
 ````
 
 ## Save a ninja

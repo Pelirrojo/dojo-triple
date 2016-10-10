@@ -12,40 +12,42 @@ var urlDB = 'http://database:7474/db/data/transaction/commit'
 var app = express()
 
 
-app.get('/api/clans/', function (req, res, next) {
-
-  var queryGetAllClans = {
-    'statements': [{
-      'statement': 'MATCH (n:Ninja) RETURN n LIMIT 25'
-    }]
-  }
-
-  request
-    .post(urlDB)
-    .send(queryGet)
-    .set('Content-Type', 'application/json')
-    .end(function (err, data) {
-      if (err) {
-        res.status(500).send(err)
-        return
-      }
-
-      res.status(200).json(data.body)
-    })
-})
-
-app.get('/api/clans/:id', function (req, res, next) {
-
+app.get('/api/clans/', (req, res, next) => {
 
 	var queryGetAllClans = {
 		'statements': [{
-			'statement': 'MATCH (n:Ninja) RETURN n LIMIT 25'
+			"statement": "MATCH (n:Ninja) RETURN n LIMIT 25"
 		}]
 	}
 
 	request
 		.post(urlDB)
-		.send(queryGet)
+		.send(queryGetAllClans)
+		.set('Content-Type', 'application/json')
+		.end(function (err, data) {
+			if (err) {
+				res.status(500).send(err)
+				return
+			}
+
+			res.status(200).json(data.body)
+		})
+})
+
+app.get('/api/clans/:id', function (req, res, next) {
+
+	var clanShortCode = req.params.id
+
+	var queryGenClanById = {
+		"statements" : [{
+			"statement" : "MATCH (c) WHERE c.shortCode= { code } RETURN c",
+			"parameters" : { "code" : clanShortCode }
+		}]
+	}
+
+	request
+		.post(urlDB)
+		.send(queryGenClanById)
 		.set('Content-Type', 'application/json')
 		.end(function (err, data) {
 			if (err) {
@@ -58,7 +60,7 @@ app.get('/api/clans/:id', function (req, res, next) {
 
 })
 
-app.put('/api/clans/:id', function (req, res, next) { res.status(200).json({}); })
+app.put('/api/clans/:id', function (req, res) { res.status(200).json({}); })
 
 app.delete('/api/clans/:id', function (req, res, next) {})
 
@@ -66,11 +68,11 @@ app.post('/api/clans/', function (req, res, next) {})
 
 // 404 Default error
 app.get('/*', function (req, res, next) {
-  res.status(404).send({advice: 'you are looking too far away' })
+	res.status(404).send({advice: 'you are looking too far away' })
 })
 
 app.listen(3000, function () {
-  console.log('Example app listening on port 3000!')
+	console.log('Example app listening on port 3000!')
 })
 
 module.exports = exports = app

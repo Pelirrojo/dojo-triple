@@ -1,4 +1,4 @@
-from: mhart/alpine-node:6.2
+from: mhart/alpine-node:4.2.2
 services:
   - thetallgrassnet/alpine-neo4j:2.3:
       name: database
@@ -11,6 +11,7 @@ env:
   - LOCAL_HOME=${HOME}
 expose:
   - 3000:3000
+before-task: node --version
 quiet: false
 tasks:
   env: env
