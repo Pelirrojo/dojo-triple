@@ -1,4 +1,4 @@
-# Triple Dojo
+# Triple Dojo: Dojo Kata
 
 Hi ninjas,
 In this Dojo we need a Node REST Server with accomplish these task:
