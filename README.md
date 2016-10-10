@@ -1,8 +1,4 @@
-# Triple Dojo
-
-## Dojo Randori
-
-# Triple Dojo
+# Triple Dojo: Dojo Randori
 
 Hi ninjas,
 In this Dojo we need a to optimize the code of this microservice and migrate to ES6
