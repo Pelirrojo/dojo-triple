@@ -52,16 +52,16 @@ setTimeout(function () {
             response.statusCode.should.equal(200)
 
             const content = response.body
-              content.should.be.instanceof(Object)
-              content.should.have.property('results')
-              content.errors.length.should.be.exactly(0)
+            content.should.be.instanceof(Object)
+            content.should.have.property('results')
+            content.errors.length.should.be.exactly(0)
 
             done()
           })
       })
     })
-    
-     /**
+
+    /**
      * Append a Ninja to existing Clan
      */
     describe('PUT /api/clans/:shortCode', function () {
@@ -78,9 +78,9 @@ setTimeout(function () {
             response.statusCode.should.equal(200)
 
             const content = response.body
-              content.should.be.instanceof(Object)
-              content.should.have.property('results')
-              content.errors.length.should.be.exactly(0)
+            content.should.be.instanceof(Object)
+            content.should.have.property('results')
+            content.errors.length.should.be.exactly(0)
 
             done()
           })
@@ -130,8 +130,8 @@ setTimeout(function () {
           })
       })
     })
-    
-    
+
+
 
   })
 
