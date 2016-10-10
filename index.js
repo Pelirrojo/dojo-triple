@@ -39,9 +39,9 @@ app.get('/api/clans/', function (req, res, next) {
 		})
 })
 
-app.get('/api/clans/:id', function (req, res, next) {
+app.get('/api/clans/:shortCode', function (req, res, next) {
 
-	var clanShortCode = req.params.id
+	var clanShortCode = req.params.shortCode
 
 	var queryGenClanById = {
 		"statements" : [{
@@ -66,7 +66,6 @@ app.get('/api/clans/:id', function (req, res, next) {
 })
 
 app.post('/api/clans/', function (req, res, next) {
-
 
 	var params = req.body;
 
@@ -112,6 +111,42 @@ app.post('/api/clans/', function (req, res, next) {
 		})
 
 })
+
+
+
+app.put('/api/clans/:shortCode', function (req, res, next) {
+
+  var clanShortCode = req.params.shortCode
+  var params = req.body;
+
+  var queryUpdateClan = { "statements" : [] }
+
+  // Add Others members of Clan
+  _.each(params.members,function(item) {
+
+    queryUpdateClan.statements.push({
+      "statement" : "MATCH (newClan:Clan {shortCode: {clanShortCode}}) " +
+      "CREATE (Member:Ninja {props}), (Member)-[:IS_MEMBER]->(newClan)",
+      "parameters" : { "props" : item, "clanShortCode": params.metadata.shortCode }
+    })
+
+  })
+
+  request
+    .post(urlDB)
+    .send(queryUpdateClan)
+    .set('Content-Type', 'application/json')
+    .end(function (err, data) {
+      if (err) {
+        res.status(500).send(err)
+        return
+      }
+
+      res.status(200).json(data.body)
+    })
+
+})
+
 
 // 404 Default error
 app.get('/*', function (req, res, next) {
