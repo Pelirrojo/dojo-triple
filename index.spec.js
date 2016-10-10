@@ -35,7 +35,6 @@ setTimeout(function () {
     describe('POST /api/clans/', function () {
       it('Create a new Clan', function (done) {
         request(app)
-          .set('Content-Type', 'application/json')
           .post('/api/clans')
           .send(NinjaTeamClan)
           .end(function (err, response) {
@@ -81,9 +80,9 @@ setTimeout(function () {
      *
      */
     describe('GET /api/clans/:shortCode', function () {
-      it('respond a clan with given shorCode', function (done) {
+      it('respond a clan with given shortCode', function (done) {
         request(app)
-          .get('/api/clans/'+NinjaTeam)
+          .get('/api/clans/'+NinjaTeamClan.metadata.name)
           .end(function (err, response) {
 
             if (err) {
