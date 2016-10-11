@@ -3,43 +3,44 @@
  */
 
 // External deps
-var express = require('express')
-var bodyParser = require('body-parser')
-
-var request = require('superagent')
-var _ = require('lodash')
-
-// Environment
-var urlDB = 'http://database:7474/db/data/transaction/commit'
-var app = express()
+const express = require('express'),
+      bodyParser = require('body-parser'),
+      request = require('superagent'),
+      _ = require('lodash'),
+      urlDB = 'http://database:7474/db/data/transaction/commit',
+      app = express();
 
 	app.use(bodyParser.json() );
 	app.use(bodyParser.urlencoded({ extended: true  }));
 
 
-app.get('/api/clans/', function (req, res, next) {
+app.get('/api/clans/', (req, res)=> {
 
-	var queryGetAllClans = {
+	const queryGetAllClans = {
 		'statements': [{
 			"statement": "MATCH (n:Clan) RETURN n"
 		}]
 	}
 
-	request
-		.post(urlDB)
-		.send(queryGetAllClans)
-		.set('Content-Type', 'application/json')
-		.end(function (err, data) {
-			if (err) {
-				res.status(500).send(err)
-				return
-			}
-
-			res.status(200).json(data.body)
-		})
+  queryToNeo4j(queryGetAllClans, req, res)
 })
 
-app.get('/api/clans/:shortCode', function (req, res, next) {
+function queryToNeo4j(query, req, res) {
+  request
+    .post(urlDB)
+    .send(query)
+    .set('Content-Type', 'application/json')
+    .end((err, data)=> {
+      if (err) {
+        res.status(500).send(err)
+        return
+      }
+
+      res.status(200).json(data.body)
+    })
+}
+
+app.get('/api/clans/:shortCode', (req, res)=> {
 
 	var clanShortCode = req.params.shortCode
 
@@ -54,7 +55,7 @@ app.get('/api/clans/:shortCode', function (req, res, next) {
 		.post(urlDB)
 		.send(queryGenClanById)
 		.set('Content-Type', 'application/json')
-		.end(function (err, data) {
+		.end((err, data)=> {
 			if (err) {
 				res.status(500).send(err)
 				return
@@ -65,12 +66,12 @@ app.get('/api/clans/:shortCode', function (req, res, next) {
 
 })
 
-app.post('/api/clans/', function (req, res, next) {
+app.post('/api/clans/',  (req, res)=> {
 
-	var params = req.body;
+	const params = req.body;
 
 	// Create Clan
-	var querySaveClan = {
+	const querySaveClan = {
 		"statements" : [
 			{
 				"statement" : "CREATE (newClan:Clan {metadata}) RETURN id(newClan)",
@@ -87,7 +88,7 @@ app.post('/api/clans/', function (req, res, next) {
 	})
 
 	// Add Others members of Clan
-	_.each(params.members,function(item) {
+	_.each(params.members,(item)=> {
 
 		querySaveClan.statements.push({
 			"statement" : "MATCH (newClan:Clan {shortCode: {clanShortCode}}) " +
@@ -101,7 +102,7 @@ app.post('/api/clans/', function (req, res, next) {
 		.post(urlDB)
 		.send(querySaveClan)
 		.set('Content-Type', 'application/json')
-		.end(function (err, data) {
+		.end((err, data)=> {
 			if (err) {
 				res.status(500).send(err)
 				return
