@@ -7,6 +7,7 @@ const express = require('express'),
       bodyParser = require('body-parser'),
       request = require('superagent'),
       _ = require('lodash'),
+			queryToNeo4j = require('./helper').queryToNeo4j,
       urlDB = 'http://database:7474/db/data/transaction/commit',
       app = express();
 

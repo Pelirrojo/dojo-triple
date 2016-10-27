@@ -1,23 +1,24 @@
-const request=require('superagent')
+const request=require('superagent'),
+  urlDB = 'http://database:7474/db/data/transaction/commit'
 
-module.exports=(query,res){
+module.exports={
+  queryToNeo4j
+}
+
+function queryToNeo4j(query, res) {
 
   request
     .post(urlDB)
     .send(query)
     .set('Content-Type', 'application/json')
     .end((err, data)=> {
-      if (err) {
-        res.status(500).send(err)
-        return
-      }
+    if (err) {
+      res.status(500).send(err)
+      return
+    }
 
-      res.status(200).json(data.body)
-    })
-
-}
-
-function queryToNeo4j(query, res) {
+    res.status(200).json(data.body)
+})
 
 }
 
