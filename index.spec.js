@@ -62,32 +62,6 @@ setTimeout(function () {
     })
 
     /**
-     * Append a Ninja to existing Clan
-     */
-    describe('PUT /api/clans/:shortCode', function () {
-      it('Create a new Clan', function (done) {
-        request(app)
-          .put('/api/clans/'+NinjaTeamClan.metadata.shortCode)
-          .send(NinjaTeamClanEnforce)
-          .end(function (err, response) {
-
-            if (err) {
-              throw err
-            }
-
-            response.statusCode.should.equal(200)
-
-            const content = response.body
-            content.should.be.instanceof(Object)
-            content.should.have.property('results')
-            content.errors.length.should.be.exactly(0)
-
-            done()
-          })
-      })
-    })
-
-    /**
      * Get All Clans saved
      */
     describe('GET /api/clans/', function () {

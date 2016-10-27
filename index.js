@@ -114,41 +114,6 @@ app.post('/api/clans/',  (req, res)=> {
 })
 
 
-
-app.put('/api/clans/:shortCode', function (req, res, next) {
-
-  var clanShortCode = req.params.shortCode
-  var params = req.body;
-
-  var queryUpdateClan = { "statements" : [] }
-
-  // Add Others members of Clan
-  _.each(params.members,function(item) {
-
-    queryUpdateClan.statements.push({
-      "statement" : "MATCH (newClan:Clan {shortCode: {clanShortCode}}) " +
-      "CREATE (Member:Ninja {props}), (Member)-[:IS_MEMBER]->(newClan)",
-      "parameters" : { "props" : item, "clanShortCode": params.metadata.shortCode }
-    })
-
-  })
-
-  request
-    .post(urlDB)
-    .send(queryUpdateClan)
-    .set('Content-Type', 'application/json')
-    .end(function (err, data) {
-      if (err) {
-        res.status(500).send(err)
-        return
-      }
-
-      res.status(200).json(data.body)
-    })
-
-})
-
-
 // 404 Default error
 app.get('/*', function (req, res, next) {
 	res.status(404).send({advice: 'you are looking too far away' })
