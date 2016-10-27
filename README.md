@@ -22,5 +22,15 @@ The aim of this dojo it's to add a new ninja to an existing clan with this struc
 	}
 ````
 
+to run use:
+````bash
+    devlab start
+````
+
+to test use:
+````bash
+    devlab test
+````
+
 
 BEEVA | 2016
