@@ -22,23 +22,8 @@ app.get('/api/clans/', (req, res)=> {
 		}]
 	}
 
-  queryToNeo4j(queryGetAllClans, req, res)
+  queryToNeo4j(queryGetAllClans, res)
 })
-
-function queryToNeo4j(query, req, res) {
-  request
-    .post(urlDB)
-    .send(query)
-    .set('Content-Type', 'application/json')
-    .end((err, data)=> {
-      if (err) {
-        res.status(500).send(err)
-        return
-      }
-
-      res.status(200).json(data.body)
-    })
-}
 
 app.get('/api/clans/:shortCode', (req, res)=> {
 
@@ -51,19 +36,8 @@ app.get('/api/clans/:shortCode', (req, res)=> {
 		}]
 	}
 
-	request
-		.post(urlDB)
-		.send(queryGenClanById)
-		.set('Content-Type', 'application/json')
-		.end((err, data)=> {
-			if (err) {
-				res.status(500).send(err)
-				return
-			}
 
-			res.status(200).json(data.body)
-		})
-
+	queryToNeo4j(queryGenClanById, res)
 })
 
 app.post('/api/clans/',  (req, res)=> {
@@ -98,32 +72,15 @@ app.post('/api/clans/',  (req, res)=> {
 
 	})
 
-	request
-		.post(urlDB)
-		.send(querySaveClan)
-		.set('Content-Type', 'application/json')
-		.end((err, data)=> {
-			if (err) {
-				res.status(500).send(err)
-				return
-			}
-
-			res.status(200).json(data.body)
-		})
-
+	queryToNeo4j(querySaveClan, res)
 })
 
-
-
-app.put('/api/clans/:shortCode', function (req, res, next) {
-
-  var clanShortCode = req.params.shortCode
-  var params = req.body;
-
-  var queryUpdateClan = { "statements" : [] }
+app.put('/api/clans/:shortCode', (req, res) => {
+  const params = req.body,
+		queryUpdateClan = { "statements" : [] }
 
   // Add Others members of Clan
-  _.each(params.members,function(item) {
+  _.each(params.members, item => {
 
     queryUpdateClan.statements.push({
       "statement" : "MATCH (newClan:Clan {shortCode: {clanShortCode}}) " +
@@ -133,28 +90,18 @@ app.put('/api/clans/:shortCode', function (req, res, next) {
 
   })
 
-  request
-    .post(urlDB)
-    .send(queryUpdateClan)
-    .set('Content-Type', 'application/json')
-    .end(function (err, data) {
-      if (err) {
-        res.status(500).send(err)
-        return
-      }
-
-      res.status(200).json(data.body)
-    })
-
+	queryToNeo4j(queryUpdateClan, res)
 })
+
+
 
 
 // 404 Default error
-app.get('/*', function (req, res, next) {
+app.get('/*', (req, res) => {
 	res.status(404).send({advice: 'you are looking too far away' })
 })
 
-app.listen(3000, function () {
+app.listen(3000, () => {
 	console.log('Ninja MicroService listening on port 3000!')
 })
 
